@@ -20,11 +20,11 @@ void Game::Reset()
 	ResetBall();
 
 	// TODO #2 - Add this brick and 4 more bricks to the vector
-	for (int i = 0; i < brick.size(); ++i)
+	for (int i = 0; i < brick.size(); ++i)//will have 5 bricks
 	{
 		brick[i].width = 10;
 		brick[i].height = 2;
-		brick[i].x_position = 0;
+		brick[i].x_position = i * 15;//position starts at 0 and adds(i guess multiply is more correct) every loop
 		brick[i].y_position = 5;
 		brick[i].doubleThick = true;
 		brick[i].color = ConsoleColor::DarkGreen;
