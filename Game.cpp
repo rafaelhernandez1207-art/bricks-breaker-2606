@@ -20,6 +20,7 @@ void Game::Reset()
 	ResetBall();
 
 	// TODO #2 - Add this brick and 4 more bricks to the vector
+	brick.resize(5);//helps rebuild the brick on reset
 	for (int i = 0; i < brick.size(); ++i)//will have 5 bricks
 	{
 		brick[i].width = 10;
@@ -93,13 +94,26 @@ void Game::CheckCollision()
 				ball.y_velocity *= -1;
 
 				// TODO #5 - If the ball hits the same brick 3 times (color == black), remove it from the vector
-
+				if (brick[i].color == Black)
+				{
+					brick.erase(brick.begin() + i);
+				}
 			}
 	}
 	
 
 	// TODO #6 - If no bricks remain, pause ball and display (render) victory text with R to reset
+	if (brick.empty())
+	{
+		ball.moving = false;
+		std::cout << "VICTORY!!!\n";
+		std::cout << "Press 'R' to reset the game...\n";
 
+	if(GetAsyncKeyState('R'))
+		{
+			Reset();
+		}
+	}
 
 	if (paddle.Contains(ball.x_position + ball.x_velocity, ball.y_velocity + ball.y_position))
 	{
