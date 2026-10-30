@@ -21,6 +21,7 @@ void Game::Reset()
 
 	// TODO #2 - Add this brick and 4 more bricks to the vector
 	brick.resize(5);//helps rebuild the brick on reset
+	defeat = false;
 	for (int i = 0; i < brick.size(); ++i)//will have 5 bricks
 	{
 		brick[i].width = 10;
@@ -78,8 +79,17 @@ void Game::Render() const
 	{
 		brick[i].Draw();
 	}
-	
-
+	if (brick.empty())
+	{
+		Console::SetCursorPosition(40, 20);//middle of the screen
+		std::cout << "\nVICTORY!!!\n";
+		std::cout << "Press 'R' to reset the game...\n";
+	}
+	else if (defeat)
+	{
+		Console::SetCursorPosition(40, 20);//middle of the screen
+		std::cout << "You Lose...Press 'R' to reset the game...\n";
+	}
 	Console::Lock(false);
 }
 
@@ -106,13 +116,6 @@ void Game::CheckCollision()
 	if (brick.empty())
 	{
 		ball.moving = false;
-		std::cout << "VICTORY!!!\n";
-		std::cout << "Press 'R' to reset the game...\n";
-
-	if(GetAsyncKeyState('R'))
-		{
-			Reset();
-		}
 	}
 
 	if (paddle.Contains(ball.x_position + ball.x_velocity, ball.y_velocity + ball.y_position))
@@ -121,4 +124,11 @@ void Game::CheckCollision()
 	}
 
 	// TODO #7 - If ball touches bottom of window, pause ball and display (render) defeat text with R to reset
+	if (ball.y_position >= WINDOW_HEIGHT -1)//looks at the bottom window
+	{
+		ball.y_position = WINDOW_HEIGHT - 1;//sets the y position
+		ball.moving = false;
+		defeat = true;
+	}
+	
 }
